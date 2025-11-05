@@ -4,7 +4,7 @@ go 1.25.1
 
 require (
 	github.com/btcsuite/btcutil v1.0.2
-	github.com/go-co-op/gocron/v2 v2.16.6
+	github.com/go-co-op/gocron/v2 v2.17.0
 	github.com/go-playground/validator/v10 v10.28.0
 	github.com/goccy/go-json v0.10.5
 	github.com/gofiber/fiber/v2 v2.52.9
@@ -17,6 +17,7 @@ require (
 	github.com/rs/zerolog v1.34.0
 	github.com/urfave/cli-altsrc/v3 v3.1.0
 	github.com/urfave/cli/v3 v3.4.1
+	github.com/valyala/fasthttp v1.66.0
 	golang.org/x/crypto v0.43.0
 	golang.org/x/net v0.46.0
 	gorm.io/driver/postgres v1.6.0
@@ -50,7 +51,6 @@ require (
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/sethvargo/go-retry v0.3.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.66.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.37.0 // indirect
