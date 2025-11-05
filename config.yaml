@@ -1,0 +1,9 @@
+http:
+  port: 8080
+  logs: true
+logger:
+  level: debug
+  pretty: true
+database:
+  dialect: sqlite
+  dsn: ./database.sqlite

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{if .Title}}{{.Title}} - {{end}}Bastion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <main class="pt-6">
+                <div class="w-full px-4 sm:px-6 lg:px-8 py-8">
+                <div class="bg-white shadow rounded-lg p-6">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-4">Bienvenue sur Bastion</h1>
+                    <p class="text-gray-600 mb-6">
+                        Bastion est votre point d'accès centralisé pour les connexions SSH et les applications web.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-2">SSH Bastion</h2>
+                            <p class="text-gray-600 mb-4">
+                                Connectez-vous via SSH pour accéder à vos serveurs distants.
+                            </p>
+                            <code class="text-sm bg-gray-100 px-2 py-1 rounded">ssh user@bastion.example.com</code>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-2">Applications Web</h2>
+                            <p class="text-gray-600 mb-4">
+                                Accédez à vos applications web via l'interface avec gestion d'onglets.
+                            </p>
+                            <a href="/apps" class="text-blue-600 hover:text-blue-800 font-medium">
+                                Accéder aux apps →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+

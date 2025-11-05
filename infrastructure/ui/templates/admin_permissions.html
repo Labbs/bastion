@@ -1,0 +1,23 @@
+{{define "admin_permissions"}}
+<div class="bg-white shadow rounded-lg overflow-hidden mb-6">
+    <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900">Permissions des applications</h2>
+        <p class="text-sm text-gray-600 mt-1">Gérez les permissions d'accès aux applications pour les utilisateurs et groupes</p>
+    </div>
+    <div class="p-6">
+        <p class="text-sm text-gray-600">Sélectionnez une application pour gérer ses permissions :</p>
+        <div class="mt-4 space-y-2">
+            {{range .Apps}}
+            <a href="/admin/apps/{{.Id}}/permissions" class="block px-4 py-2 text-sm text-gray-700 bg-gray-50 rounded-md hover:bg-gray-100">
+                {{.Name}} - {{.Url}}
+            </a>
+            {{end}}
+            {{if not .Apps}}
+            <p class="text-sm text-gray-500">Aucune application disponible. Créez d'abord des applications.</p>
+            {{end}}
+        </div>
+    </div>
+</div>
+{{end}}
+
+

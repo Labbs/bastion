@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{if .Title}}{{.Title}} - {{end}}Bastion</title>
+    <!-- Tailwind CSS CDN (dev only - will be embedded for production) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js CDN (dev only - will be embedded for production) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    {{if .ExtraHead}}{{.ExtraHead}}{{end}}
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        {{if .Navbar}}
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <a href="/" class="text-xl font-bold text-gray-900">Bastion</a>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        {{if .User}}
+                        <span class="text-sm text-gray-700">{{.User.Username}}</span>
+                        <a href="/api/v1/auth/logout" class="text-sm text-gray-600 hover:text-gray-900">Déconnexion</a>
+                        {{else}}
+                        <a href="/login" class="text-sm text-gray-600 hover:text-gray-900">Connexion</a>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+        </nav>
+        {{end}}
+        
+        <main class="{{if .Navbar}}pt-6{{end}}">
+            {{block "content" .}}{{end}}
+        </main>
+    </div>
+</body>
+</html>
+

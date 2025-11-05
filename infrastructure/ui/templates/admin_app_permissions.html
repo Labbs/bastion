@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permissions - {{.App.Name}} - Bastion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+<div class="w-full px-4 sm:px-6 lg:px-8 py-8" x-data="{ showUserForm: false, showGroupForm: false }">
+    <!-- Header -->
+    <div class="mb-6">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Permissions : {{.App.Name}}</h1>
+                <p class="text-sm text-gray-600 mt-1">Gérer les permissions d'accès pour cette application</p>
+            </div>
+            <div>
+                <a href="/admin" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                    Retour à l'administration
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Messages -->
+    {{if .Error}}
+    <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+        <span>Erreur : {{.Error}}</span>
+    </div>
+    {{end}}
+    {{if .Success}}
+    <div class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
+        <span>Opération réussie</span>
+    </div>
+    {{end}}
+    
+    <!-- Permissions utilisateurs -->
+    <div class="bg-white shadow rounded-lg overflow-hidden mb-6">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-gray-900">Permissions utilisateurs</h2>
+            <button @click="showUserForm = !showUserForm" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                <span x-show="!showUserForm">+ Ajouter un utilisateur</span>
+                <span x-show="showUserForm">Masquer</span>
+            </button>
+        </div>
+        
+        <!-- Formulaire d'ajout utilisateur -->
+        <div x-show="showUserForm" class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <form method="POST" action="/admin/apps/{{.App.Id}}/permissions/user" class="flex gap-4">
+                <select name="user_id" required class="flex-1 border border-gray-300 rounded-md py-2 px-3">
+                    <option value="">Sélectionner un utilisateur</option>
+                    {{range .Users}}
+                    <option value="{{.Id}}">{{.Username}} ({{.Email}})</option>
+                    {{end}}
+                </select>
+                <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                    Ajouter
+                </button>
+                <button type="button" @click="showUserForm = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                    Annuler
+                </button>
+            </form>
+        </div>
+        
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Utilisateur</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {{range .UserPerms}}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{.User.Username}}</div>
+                        <div class="text-sm text-gray-500">{{.User.Email}}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Accès autorisé
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <form method="POST" action="/admin/apps/{{$.App.Id}}/permissions/user/{{.UserId}}/revoke" style="display:inline;">
+                            <button type="submit" class="text-red-600 hover:text-red-900">Révoquer</button>
+                        </form>
+                    </td>
+                </tr>
+                {{end}}
+                {{if not .UserPerms}}
+                <tr>
+                    <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">
+                        Aucune permission utilisateur.
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Permissions groupes -->
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-gray-900">Permissions groupes</h2>
+            <button @click="showGroupForm = !showGroupForm" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                <span x-show="!showGroupForm">+ Ajouter un groupe</span>
+                <span x-show="showGroupForm">Masquer</span>
+            </button>
+        </div>
+        
+        <!-- Formulaire d'ajout groupe -->
+        <div x-show="showGroupForm" class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <form method="POST" action="/admin/apps/{{.App.Id}}/permissions/group" class="flex gap-4">
+                <select name="group_id" required class="flex-1 border border-gray-300 rounded-md py-2 px-3">
+                    <option value="">Sélectionner un groupe</option>
+                    {{range .Groups}}
+                    <option value="{{.Id}}">{{.Name}}</option>
+                    {{end}}
+                </select>
+                <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                    Ajouter
+                </button>
+                <button type="button" @click="showGroupForm = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                    Annuler
+                </button>
+            </form>
+        </div>
+        
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Groupe</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {{range .GroupPerms}}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{.Group.Name}}</div>
+                        <div class="text-sm text-gray-500">{{.Group.Description}}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Accès autorisé
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <form method="POST" action="/admin/apps/{{$.App.Id}}/permissions/group/{{.GroupId}}/revoke" style="display:inline;">
+                            <button type="submit" class="text-red-600 hover:text-red-900">Révoquer</button>
+                        </form>
+                    </td>
+                </tr>
+                {{end}}
+                {{if not .GroupPerms}}
+                <tr>
+                    <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">
+                        Aucune permission groupe.
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+
