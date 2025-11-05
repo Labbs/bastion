@@ -452,7 +452,7 @@ func (ctrl *ProxyController) rewriteURL(urlStr string, baseURL *url.URL, proxyBa
 	// Ne pas proxifier les URLs data:, blob:, about:, javascript:, etc.
 	if strings.HasPrefix(urlStr, "data:") || strings.HasPrefix(urlStr, "blob:") ||
 		strings.HasPrefix(urlStr, "about:") || strings.HasPrefix(urlStr, "javascript:") ||
-		strings.HasPrefix(urlStr, "mailto:") || strings.HasPrefix(urlStr, "tel:") {
+		strings.HasPrefix(urlStr, "vbscript:") || strings.HasPrefix(urlStr, "mailto:") || strings.HasPrefix(urlStr, "tel:") {
 		return urlStr
 	}
 
